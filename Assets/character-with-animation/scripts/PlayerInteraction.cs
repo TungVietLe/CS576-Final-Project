@@ -83,16 +83,16 @@
 //         }
 //     }
     
-//     private void CollectResource(GameObject resource)
-//     {
-//         string resourceType = resource.GetComponent<ResourceType>().type;
-//         if (!collectedResources.ContainsKey(resourceType))
-//         {
-//             collectedResources[resourceType] = 0;
-//         }
-//         collectedResources[resourceType]++;
-//         Destroy(resource);
-//     }
+    private void CollectResource(GameObject resource)
+    {
+        //string resourceType = resource.GetComponent<ResourceType>().type;
+        /*if (!collectedResources.ContainsKey(resourceType))
+        {
+            collectedResources[resourceType] = 0;
+        }
+        collectedResources[resourceType]++;
+        Destroy(resource);*/
+    }
     
 //     private void HelpAnimal(GameObject animal)
 //     {
