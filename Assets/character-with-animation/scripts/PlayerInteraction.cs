@@ -1,8 +1,8 @@
-// using UnityEngine;
-// using System.Collections.Generic;
+ using UnityEngine;
+ using System.Collections.Generic;
 
-// public class PlayerInteraction : MonoBehaviour
-// {
+ public class PlayerInteraction : MonoBehaviour
+{
 //     [Header("Interaction Settings")]
 //     [SerializeField] private float interactionRange = 3f;
 //     [SerializeField] private LayerMask interactionMask;
@@ -111,4 +111,4 @@
 //         isPerformingAction = false;
 //         // Complete tree growth
 //     }
-// }
+}
