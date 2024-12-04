@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 velocity;
     private bool isGrounded;
     private bool isSprinting;
+    private float speedMultiplier = 1f;
     
     private void Start()
     {
@@ -32,6 +33,11 @@ public class PlayerController : MonoBehaviour
         HandleMovement();
         HandleJump();
         UpdateAnimations();
+    }
+    
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
     }
     
     private void HandleMovement()
@@ -53,7 +59,7 @@ public class PlayerController : MonoBehaviour
         
         // Handle sprinting
         isSprinting = Input.GetKey(KeyCode.LeftShift) && vertical > 0;
-        float currentSpeed = isSprinting ? sprintSpeed : moveSpeed;
+        float currentSpeed = (isSprinting ? sprintSpeed : moveSpeed) * speedMultiplier;
         
         // Apply movement
         controller.Move(direction.normalized * currentSpeed * Time.deltaTime);
