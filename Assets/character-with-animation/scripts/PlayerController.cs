@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private bool isRunning;
     private bool canMove = true;
-    static public bool dialogue = false;
+    private float speedMultiplier = 1f;
     
     private void Start()
     {
@@ -37,8 +37,8 @@ public class PlayerController : MonoBehaviour
         
         // Handle attack inputs
         if (Input.GetKeyDown(KeyCode.H))
-    {
-        animationController.TriggerAttack();
+        {
+            animationController.TriggerAttack();
     }
     }
     
@@ -68,5 +68,10 @@ public class PlayerController : MonoBehaviour
             movement = Vector2.zero;
             animationController.SetMovementAnimation(movement, false);
         }
+    }
+
+    public void SetSpeedMultiplier(float multiplier)
+    {
+        speedMultiplier = multiplier;
     }
 }
