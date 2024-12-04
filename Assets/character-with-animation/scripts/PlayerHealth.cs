@@ -10,6 +10,8 @@ public class PlayerHealth : MonoBehaviour
     
     private float currentHealth;
     private bool isInPollutedArea;
+    private PlayerController playerController;
+    private PlayerAnimationController animationController;
     
     // Events for UI updates and game state changes
     public event Action<float> OnHealthChanged;
@@ -18,6 +20,8 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
+        playerController = GetComponent<PlayerController>();
+        animationController = GetComponent<PlayerAnimationController>();
     }
     
     private void Update()
@@ -53,12 +57,11 @@ public class PlayerHealth : MonoBehaviour
     private void Die()
     {
         OnPlayerDeath?.Invoke();
-        // Disable player controls
-        GetComponent<PlayerController>().enabled = false;
+        playerController.SetCanMove(false);
+        animationController.SetDeathState();
         // You might want to show game over screen or restart level here
     }
     
-    // Method for environmental interaction
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("PollutedArea"))
@@ -68,6 +71,14 @@ public class PlayerHealth : MonoBehaviour
         else if (other.CompareTag("HealingArea"))
         {
             Heal(healingRate * Time.deltaTime);
+        }
+        else if (other.CompareTag("Enemy"))
+        {
+            // EnemyAttack enemyAttack = other.GetComponent<EnemyAttack>();
+            // if (enemyAttack != null)
+            // {
+            //     TakeDamage(enemyAttack.GetDamageAmount());
+            // }
         }
     }
     

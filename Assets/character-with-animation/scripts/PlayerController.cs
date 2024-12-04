@@ -3,96 +3,67 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float sprintSpeed = 8f;
-    [SerializeField] private float rotationSpeed = 10f;
-    [SerializeField] private float jumpForce = 5f;
+    [SerializeField] private float walkSpeed = 5f;
+    [SerializeField] private float runSpeed = 8f;
     
-    [Header("Ground Check")]
-    [SerializeField] private float groundDistance = 0.4f;
-    [SerializeField] private LayerMask groundMask;
-    
-    private CharacterController controller;
-    private Animator animator;
-    private Vector3 velocity;
-    private bool isGrounded;
-    private bool isSprinting;
-    private float speedMultiplier = 1f;
+    private PlayerAnimationController animationController;
+    private Rigidbody rb;
+    private Vector2 movement;
+    private bool isRunning;
+    private bool canMove = true;
     
     private void Start()
     {
-        controller = GetComponent<CharacterController>();
-        animator = GetComponent<Animator>();
-        
-        // Lock cursor for first-person view
-        Cursor.lockState = CursorLockMode.Locked;
+        rb = GetComponent<Rigidbody>();
+        animationController = GetComponent<PlayerAnimationController>();
     }
     
     private void Update()
     {
-        HandleMovement();
-        HandleJump();
-        UpdateAnimations();
-    }
-    
-    public void SetSpeedMultiplier(float multiplier)
-    {
-        speedMultiplier = multiplier;
-    }
-    
-    private void HandleMovement()
-    {
-        // Ground check
-        isGrounded = Physics.CheckSphere(transform.position, groundDistance, groundMask);
-        
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = -2f;
-        }
+        if (!canMove) return;
         
         // Get input
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
+        movement.x = Input.GetAxisRaw("Horizontal");
+        movement.y = Input.GetAxisRaw("Vertical");
+        movement = movement.normalized;
         
-        // Calculate movement direction
-        Vector3 direction = transform.right * horizontal + transform.forward * vertical;
+        // Check if running (shift key)
+        isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         
-        // Handle sprinting
-        isSprinting = Input.GetKey(KeyCode.LeftShift) && vertical > 0;
-        float currentSpeed = (isSprinting ? sprintSpeed : moveSpeed) * speedMultiplier;
+        // Update animation
+        animationController.SetMovementAnimation(movement, isRunning);
         
-        // Apply movement
-        controller.Move(direction.normalized * currentSpeed * Time.deltaTime);
-        
-        // Handle camera rotation
-        float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
-        transform.Rotate(Vector3.up * mouseX);
+        // Handle attack inputs
+        if (Input.GetKeyDown(KeyCode.H))
+    {
+        animationController.TriggerAttack();
+    }
     }
     
-    private void HandleJump()
+    private void FixedUpdate()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (!canMove) return;
+        
+        // Move the character
+        float currentSpeed = isRunning ? runSpeed : walkSpeed;
+        Vector3 moveVector = new Vector3(movement.x, 0, movement.y) * currentSpeed;
+        rb.MovePosition(rb.position + moveVector * Time.fixedDeltaTime);
+        
+        // Rotate the character to face movement direction
+        if (movement != Vector2.zero)
         {
-            velocity.y = Mathf.Sqrt(jumpForce * -2f * Physics.gravity.y);
+            float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, targetAngle, 0);
         }
-        
-        velocity.y += Physics.gravity.y * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
     }
     
-    private void UpdateAnimations()
+    public void SetCanMove(bool value)
     {
-        if (animator != null)
+        canMove = value;
+        if (!canMove)
         {
-            // Calculate movement magnitude
-            Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-            float movementMagnitude = movement.magnitude;
-            
-            // Update animator parameters
-            animator.SetBool("IsMoving", movementMagnitude > 0.1f);
-            animator.SetBool("IsSprinting", isSprinting);
-            animator.SetBool("IsGrounded", isGrounded);
-            animator.SetFloat("MovementSpeed", movementMagnitude);
+            movement = Vector2.zero;
+            animationController.SetMovementAnimation(movement, false);
         }
     }
 }
