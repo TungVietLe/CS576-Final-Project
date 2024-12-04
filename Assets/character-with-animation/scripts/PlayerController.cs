@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private bool canMove = true;
     private float speedMultiplier = 1f;
     
+    public static bool dialogue = false;
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
