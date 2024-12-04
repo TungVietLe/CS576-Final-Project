@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     private Vector2 movement;
     private bool isRunning;
     private bool canMove = true;
+    static public bool dialogue = false;
     
     private void Start()
     {
@@ -20,6 +21,7 @@ public class PlayerController : MonoBehaviour
     
     private void Update()
     {
+        if (dialogue) return;
         if (!canMove) return;
         
         // Get input
@@ -42,6 +44,7 @@ public class PlayerController : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (dialogue) return;
         if (!canMove) return;
         
         // Move the character

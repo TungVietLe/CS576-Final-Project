@@ -5,23 +5,22 @@ using TMPro;
 
 public class VillagerInteraction : MonoBehaviour
 {
-    public string dialogue; 
-    public TextMeshProUGUI interactionPrompt; 
-    public DialogueManager dialogueManager; 
+    public GameObject d_template;
+    public GameObject canva;
 
     private bool isPlayerInRange = false; 
 
     void Start()
     {
-        interactionPrompt.gameObject.SetActive(false); 
+         
     }
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            interactionPrompt.gameObject.SetActive(true); 
             isPlayerInRange = true; 
+            Debug.Log("PLayer in range");
         }
     }
 
@@ -29,17 +28,26 @@ public class VillagerInteraction : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            interactionPrompt.gameObject.SetActive(false); 
             isPlayerInRange = false; 
         }
     }
 
     void Update()
     {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E)) 
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E) && !PlayerController.dialogue) 
         {
-            dialogueManager.ShowDialogue(dialogue);
-            interactionPrompt.gameObject.SetActive(false); 
+            canva.SetActive(true);
+            PlayerController.dialogue = true;
+            Debug.Log("Conversation started");
+            NewDialogue("Hello there!"); 
+            canva.transform.GetChild(1).gameObject.SetActive(true);
         }
+    }
+
+    void NewDialogue(string text)
+    {
+        GameObject template_clone = Instantiate(d_template, d_template.transform);
+        template_clone.transform.parent = canva.transform;
+        template_clone.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = text;
     }
 }
