@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
     
     private void FixedUpdate()
     {
+        if (PlayerAnimationController.curState == PlayerAnimationController.Attack) return;
         if (dialogue) return;
         if (!canMove) return;
         
