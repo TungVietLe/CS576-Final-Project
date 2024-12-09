@@ -3,6 +3,7 @@ using System;
 
 public class PlayerHealth : MonoBehaviour
 {
+    public bool isDead {get; private set;} = false;
     [Header("Health Settings")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private float environmentalDamageRate = 5f;
@@ -10,8 +11,7 @@ public class PlayerHealth : MonoBehaviour
     
     private float currentHealth;
     private bool isInPollutedArea;
-    private PlayerController playerController;
-    private PlayerAnimationController animationController;
+    private PlayerMovement playerController;
     
     // Events for UI updates and game state changes
     public event Action<float> OnHealthChanged;
@@ -20,8 +20,7 @@ public class PlayerHealth : MonoBehaviour
     private void Start()
     {
         currentHealth = maxHealth;
-        playerController = GetComponent<PlayerController>();
-        animationController = GetComponent<PlayerAnimationController>();
+        playerController = GetComponent<PlayerMovement>();
     }
     
     private void Update()
@@ -58,7 +57,7 @@ public class PlayerHealth : MonoBehaviour
     {
         OnPlayerDeath?.Invoke();
         playerController.SetCanMove(false);
-        animationController.SetDeathState();
+        isDead = true;
         // You might want to show game over screen or restart level here
     }
     

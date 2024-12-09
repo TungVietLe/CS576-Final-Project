@@ -1,12 +1,21 @@
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
+    public bool IsMoving {
+        get {
+            return movement != Vector3.zero;
+        }
+    }
+    public bool IsAttachTriggered {
+        get {
+            return Input.GetKeyDown(KeyCode.H);
+        }
+    }
     [Header("Movement Settings")]
     [SerializeField] private float walkSpeed = 5f;
     [SerializeField] private float runSpeed = 8f;
     
-    private PlayerAnimationController animationController;
     private Rigidbody rb;
     private Vector3 movement;
     private bool isRunning;
@@ -17,7 +26,6 @@ public class PlayerController : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        animationController = GetComponent<PlayerAnimationController>();
     }
     
     private void Update()
@@ -36,13 +44,12 @@ public class PlayerController : MonoBehaviour
         isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         
         // Update animation
-        animationController.SetMovementAnimation(movement, isRunning);
+        //animationController.SetMovementAnimation(movement, isRunning);
         
         // Handle attack inputs
         if (Input.GetKeyDown(KeyCode.H))
         {
-            animationController.TriggerAttack();
-    }
+        }
     }
     
     private void FixedUpdate()
@@ -69,7 +76,6 @@ public class PlayerController : MonoBehaviour
         if (!canMove)
         {
             movement = Vector3.zero;
-            animationController.SetMovementAnimation(movement, false);
         }
     }
 

@@ -15,13 +15,13 @@ public class ChangeDialogue : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && transform.childCount > 1)
         {
-            if (PlayerController.dialogue)
+            if (PlayerMovement.dialogue)
             {
                 transform.GetChild(index).gameObject.SetActive(true);
                 index += 1;
                 if (transform.childCount == index)
                 {
-                    PlayerController.dialogue = false;
+                    PlayerMovement.dialogue = false;
                     index = 2;
                 }
             }
