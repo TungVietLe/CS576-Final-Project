@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     
     private PlayerAnimationController animationController;
     private Rigidbody rb;
-    private Vector2 movement;
+    private Vector3 movement;
     private bool isRunning;
     private bool canMove = true;
     private float speedMultiplier = 1f;
@@ -24,12 +24,14 @@ public class PlayerController : MonoBehaviour
     {
         if (dialogue) return;
         if (!canMove) return;
-        
+
         // Get input
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement = movement.normalized;
-        
+        float Horizontal = Input.GetAxis("Horizontal") ;
+        float Vertical = Input.GetAxis("Vertical") ;
+
+        movement = Camera.main.transform.right * Horizontal + Camera.main.transform.forward * Vertical;
+        movement.y = 0f;
+
         // Check if running (shift key)
         isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
         
@@ -50,11 +52,11 @@ public class PlayerController : MonoBehaviour
         
         // Move the character
         float currentSpeed = isRunning ? runSpeed : walkSpeed;
-        Vector3 moveVector = new Vector3(movement.x, 0, movement.y) * currentSpeed;
+        Vector3 moveVector = movement * currentSpeed;
         rb.MovePosition(rb.position + moveVector * Time.fixedDeltaTime);
         
         // Rotate the character to face movement direction
-        if (movement != Vector2.zero)
+        if (movement != Vector3.zero)
         {
             float targetAngle = Mathf.Atan2(movement.x, movement.y) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, targetAngle, 0);
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour
         canMove = value;
         if (!canMove)
         {
-            movement = Vector2.zero;
+            movement = Vector3.zero;
             animationController.SetMovementAnimation(movement, false);
         }
     }
