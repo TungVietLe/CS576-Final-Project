@@ -2,40 +2,57 @@ using UnityEngine;
 
 public class PlayerAnimationController : MonoBehaviour
 {
-    private Animator animator;
-    private PlayerController playerController;
-    
-    // Animation parameter names
-    private readonly string IS_WALKING = "IsWalking";
-    private readonly string IS_RUNNING = "IsRunning";
-    private readonly string ATTACK = "Attack";
-    private readonly string MOVEMENT_X = "MovementX";
-    private readonly string MOVEMENT_Y = "MovementY";
-    private readonly string IS_DEAD = "IsDead";
-    private readonly string IS_IDLE = "IsIdle";
-    
-    private void Start()
-    {
-        animator = GetComponent<Animator>();
-        playerController = GetComponent<PlayerController>();
+    private Animator anim;
+    private PlayerHealth health;
+    private PlayerMovement movement;
+    private float _lockUntil;
+
+    // animation states
+    private int curState;
+    private static readonly int Idle = Animator.StringToHash("Idle");
+    private static readonly int Attack = Animator.StringToHash("AttackHor");
+    private static readonly int WalkBackward = Animator.StringToHash("WalkBackward");
+    private static readonly int CrouchForward = Animator.StringToHash("CrouchForward");
+    private static readonly int CrouchBackward = Animator.StringToHash("CrouchBackward");
+    private static readonly int Running = Animator.StringToHash("Running");
+    private static readonly int Jump = Animator.StringToHash("Jump");
+    private static readonly int Death = Animator.StringToHash("Death");
+    void Start() {
+        anim = GetComponent<Animator>();
+        health = GetComponent<PlayerHealth>();
+        movement = GetComponent<PlayerMovement>();
+        foreach (var c in anim.GetCurrentAnimatorClipInfo(0)) {
+            print(c.clip.name);
+        }
     }
-    
-    public void SetMovementAnimation(Vector2 movement, bool isRunning)
+    // Update is called once per frame
+    void Update()
     {
-        animator.SetFloat(MOVEMENT_X, movement.x);
-        animator.SetFloat(MOVEMENT_Y, movement.y);
-        animator.SetBool(IS_IDLE, movement.magnitude == 0);
-        animator.SetBool(IS_WALKING, movement.magnitude > 0);
-        animator.SetBool(IS_RUNNING, isRunning && movement.magnitude > 0);
+        int state = GetState();
+        if (curState != state)
+        {
+            anim.CrossFade(state, 0.15f, 0);
+            curState = state;
+        }
     }
-    
-    public void TriggerAttack()
+
+    private bool isLocking = false;
+    private int GetState()
     {
-        animator.SetTrigger(ATTACK);
+        if (anim.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f) {
+            isLocking = false;
+        }
+        if (isLocking) return curState;
+        if (health.isDead) return Death;
+        if (movement.IsAttachTriggered) return LockState(Attack);
+        if (movement.IsMoving) return Running;
+        return Idle;
     }
-    
-    public void SetDeathState()
+
+    // states that triggered and you want to play the animation all the way till the end
+    int LockState(int s)
     {
-        animator.SetBool(IS_DEAD, true);
+        isLocking = true;
+        return s;
     }
 } 

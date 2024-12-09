@@ -34,10 +34,10 @@ public class VillagerInteraction : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E) && !PlayerController.dialogue) 
+        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E) && !PlayerMovement.dialogue) 
         {
             canva.SetActive(true);
-            PlayerController.dialogue = true;
+            PlayerMovement.dialogue = true;
             Debug.Log("Conversation started");
             NewDialogue("Hello there!"); 
             canva.transform.GetChild(1).gameObject.SetActive(true);
