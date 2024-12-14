@@ -12,7 +12,7 @@ public class ItemSpawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] private SpawnableItem[] spawnableItems;
-    [SerializeField] private int numberOfItemsToSpawn = 100;
+    [SerializeField] private int numberOfItemsToSpawn = 10000;
     [SerializeField] private Vector2 spawnAreaSize = new Vector2(1000f, 1000f);
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float raycastHeight = 1000f;
@@ -70,7 +70,7 @@ public class ItemSpawner : MonoBehaviour
                         GameObject selectedItem = SelectRandomItem();
                         if (selectedItem != null)
                         {
-                            Vector3 spawnPosition = hit.point + Vector3.up * 0.1f;
+                            Vector3 spawnPosition = hit.point + Vector3.up * 1.0f;
                             Instantiate(selectedItem, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
                         }
                     }
@@ -137,7 +137,7 @@ public class ItemSpawner : MonoBehaviour
             GameObject selectedItem = SelectRandomItem();
             if (selectedItem != null)
             {
-                Vector3 spawnPosition = hit.point + Vector3.up * 0.1f;
+                Vector3 spawnPosition = hit.point + Vector3.up * 1.0f;
                 Instantiate(selectedItem, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
             }
         }

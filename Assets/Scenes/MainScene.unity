@@ -1535,6 +1535,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &657806855
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 657806857}
+  - component: {fileID: 657806856}
+  m_Layer: 0
+  m_Name: ItemSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &657806856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657806855}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23eaca958ffad6a44ade18dfbf051c0a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spawnableItems:
+  - itemPrefab: {fileID: 7120382088629031720, guid: d15ff1e0b5163044faec84c42876f112, type: 3}
+    spawnWeight: 1
+  - itemPrefab: {fileID: 1460632416638922788, guid: 4e5cfdbb79210084ba3def36800cfb1b, type: 3}
+    spawnWeight: 1
+  - itemPrefab: {fileID: 2215441590038146254, guid: 5341099f149d5844a8be62a5065ff163, type: 3}
+    spawnWeight: 1
+  - itemPrefab: {fileID: 1983287504856103444, guid: 08622e6e5f65d6345b37217a22b30539, type: 3}
+    spawnWeight: 1
+  numberOfItemsToSpawn: 10000
+  spawnAreaSize: {x: 1000, y: 1000}
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  raycastHeight: 1000
+  minimumDistanceBetweenItems: 10
+  useGridSpawning: 1
+  gridDivisions: 10
+--- !u!4 &657806857
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 657806855}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 720.8157, y: 102.40794, z: 569.04}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -2822,3 +2884,4 @@ SceneRoots:
   - {fileID: 1925451995}
   - {fileID: 1652734323}
   - {fileID: 1995801878}
+  - {fileID: 657806857}
