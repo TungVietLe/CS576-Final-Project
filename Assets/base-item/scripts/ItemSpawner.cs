@@ -70,7 +70,7 @@ public class ItemSpawner : MonoBehaviour
                         GameObject selectedItem = SelectRandomItem();
                         if (selectedItem != null)
                         {
-                            Vector3 spawnPosition = hit.point + Vector3.up * 0.1f;
+                            Vector3 spawnPosition = hit.point + Vector3.up * 1.0f;
                             Instantiate(selectedItem, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
                         }
                     }
@@ -137,7 +137,7 @@ public class ItemSpawner : MonoBehaviour
             GameObject selectedItem = SelectRandomItem();
             if (selectedItem != null)
             {
-                Vector3 spawnPosition = hit.point + Vector3.up * 0.1f;
+                Vector3 spawnPosition = hit.point + Vector3.up * 1.0f;
                 Instantiate(selectedItem, spawnPosition, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
             }
         }
