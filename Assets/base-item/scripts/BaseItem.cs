@@ -8,6 +8,25 @@ public abstract class BaseItem : MonoBehaviour
     
     protected bool hasBeenUsed = false;
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            // Parent the item to the player before using it
+            transform.SetParent(other.transform);
+            
+            // Use the item
+            if (Use())
+            {
+                // If successfully used and should be consumed, destroy the object
+                if (consumeOnUse)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+    }
+
     public virtual bool Use()
     {
         if (hasBeenUsed && !canUseMultipleTimes) return false;
