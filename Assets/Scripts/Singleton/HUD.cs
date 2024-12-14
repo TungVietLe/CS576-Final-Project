@@ -8,6 +8,16 @@ using UnityEngine.UI;
 public class HUD : Singleton<HUD>
 {
     [SerializeField] Image environmentHealth;
+    [Header("Small task")]
+    [SerializeField] TextMeshProUGUI smallTaskTMP;
+    [SerializeField] Image smallTaskLoading;
+
+    private void Start() {
+        StopSmallTaskLoading();
+    }
+    private void Update() {
+
+    }
 
     public void SetEnvironmentHealth(float val) {
         if (val < 0 || val > 1) throw new Exception("health value should be between 0 and 1");
@@ -38,5 +48,13 @@ public class HUD : Singleton<HUD>
         missions.ForEach(e => str += "- e \n");
     }
 
+    public void SetSmallTaskLoading(string taskName, float duration) {
+        
+    }
+
+    public void StopSmallTaskLoading() {
+        smallTaskLoading.fillAmount = 0f;
+        smallTaskTMP.text = "";
+    }
 
 }
