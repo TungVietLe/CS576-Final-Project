@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -48,11 +49,17 @@ public class HUD : Singleton<HUD>
         missions.ForEach(e => str += "- e \n");
     }
 
-    public void SetSmallTaskLoading(string taskName, float duration) {
-        
+    
+    public DG.Tweening.Core.TweenerCore<float, float, DG.Tweening.Plugins.Options.FloatOptions> SetSmallTaskLoading(string taskName, float duration) {
+        smallTaskTMP.text = taskName;
+        smallTaskLoading.fillAmount = 1f;
+        var r = smallTaskLoading.DOFillAmount(0f, duration);
+        r.onComplete += StopSmallTaskLoading;
+        return r;
     }
 
     public void StopSmallTaskLoading() {
+        DOTween.Kill(smallTaskLoading);
         smallTaskLoading.fillAmount = 0f;
         smallTaskTMP.text = "";
     }
