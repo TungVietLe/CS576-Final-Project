@@ -12,7 +12,7 @@ public class ItemSpawner : MonoBehaviour
 
     [Header("Spawn Settings")]
     [SerializeField] private SpawnableItem[] spawnableItems;
-    [SerializeField] private int numberOfItemsToSpawn = 100;
+    [SerializeField] private int numberOfItemsToSpawn = 10000;
     [SerializeField] private Vector2 spawnAreaSize = new Vector2(1000f, 1000f);
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float raycastHeight = 1000f;
