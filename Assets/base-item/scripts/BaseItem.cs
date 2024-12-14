@@ -12,10 +12,7 @@ public abstract class BaseItem : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            // Parent the item to the player before using it
-            transform.SetParent(other.transform);
-            
-            // Use the item
+            // Use the item without parenting it
             if (Use())
             {
                 // If successfully used and should be consumed, destroy the object

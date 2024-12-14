@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1386666177415343126}
   - component: {fileID: 2221070850952071530}
   - component: {fileID: 3696184957405341057}
+  - component: {fileID: 3236382071104051363}
   m_Layer: 0
   m_Name: RedPill
   m_TagString: Untagged
@@ -99,7 +100,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -107,3 +108,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &3236382071104051363
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120382088629031720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ebbf33d082ee4ad5b9b4f42e906a6fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  consumeOnUse: 1
+  canUseMultipleTimes: 0
+  duration: 10
+  consumeEffect: {fileID: 0}
+  healAmount: 25
