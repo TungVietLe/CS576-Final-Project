@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         
         // Move the character
         float currentSpeed = isRunning ? runSpeed : walkSpeed;
+        currentSpeed *= speedMultiplier;
         Vector3 moveVector = movement * currentSpeed;
         rb.MovePosition(rb.position + moveVector * Time.fixedDeltaTime);
         
